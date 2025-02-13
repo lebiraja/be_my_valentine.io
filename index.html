@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine's Day 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js" defer></script>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Body Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Container to center content */
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    /* Header */
+    header h1 {
+      font-size: 2rem;
+      text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+      animation: pulse 2s infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    /* Section styling: only the active section displays */
+    section {
+      display: none;
+      text-align: center;
+    }
+    section.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    /* Heart Icon */
+    .heart {
+      font-size: 4rem;
+      animation: heartbeat 1.2s infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.3); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.15); }
+      60% { transform: scale(1); }
+    }
+    /* Button Styling */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin: 5px;
+    }
+    #yesBtn {
+      background-color: #ffeb3b;
+      color: #d50000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    #yesBtn:hover {
+      transform: scale(1.05) rotate(-3deg);
+    }
+    #noBtn {
+      background-color: #f48fb1;
+      color: #c2185b;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .nextBtn {
+      background-color: #ffffff;
+      color: #ff4081;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .nextBtn:hover {
+      transform: scale(1.05);
+    }
+    /* Romantic Images */
+    .romanticImage {
+      width: 90%;
+      max-width: 300px;
+      border-radius: 10px;
+      margin: 1rem auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .romanticImage:hover {
+      transform: scale(1.05);
+    }
+    /* Responsive Adjustments */
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.8rem; }
+      .btn { font-size: 1rem; padding: 0.6rem 1.2rem; }
+      .heart { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Will you be my Valentine?</h1>
+    </header>
+    <!-- Invitation Section -->
+    <section id="invitation" class="active">
+      <div class="heart">💖</div>
+      <div class="buttons">
+        <button id="yesBtn" class="btn">Yes</button>
+        <button id="noBtn" class="btn">No</button>
+      </div>
+    </section>
+    <!-- Love Message Section -->
+    <section id="loveMessage">
+      <h2 style="animation: pulse 2s infinite">I Love You! 💖</h2>
+      <button id="toPictures" class="btn nextBtn">Next</button>
+    </section>
+    <!-- Pictures Section -->
+    <section id="picturesPage">
+      <h2>Our Special Moments</h2>
+      <!-- Replace with your own image paths -->
+      <img src="us_01.jpg" alt="A beautiful memory" class="romanticImage" />
+      <img src="us_02.jpg" alt="Another special moment" class="romanticImage" />
+      <button id="toDate" class="btn nextBtn">Next</button>
+    </section>
+    <!-- Date/Memory Section -->
+    <section id="datePage">
+      <h2>Remember the Day?</h2>
+      <p style="margin-top: 1rem;">On <strong>February 7th, 2025</strong>, we shared our heartfelt feelings.</p>
+      <p style="margin-top: 1rem;">Every moment since then has been pure magic.</p>
+    </section>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const yesBtn      = document.getElementById("yesBtn");
+      const noBtn       = document.getElementById("noBtn");
+      const invitation  = document.getElementById("invitation");
+      const loveMessage = document.getElementById("loveMessage");
+      const picturesPage= document.getElementById("picturesPage");
+      const datePage    = document.getElementById("datePage");
+      const toPictures  = document.getElementById("toPictures");
+      const toDate      = document.getElementById("toDate");
+
+      // Switch visible section
+      function showSection(current, next) {
+        current.classList.remove('active');
+        next.classList.add('active');
+      }
+
+      // Confetti effect on Yes button click
+      yesBtn.addEventListener("click", () => {
+        confetti({
+          particleCount: 200,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#ff0000', '#ffffff', '#ff1493']
+        });
+        showSection(invitation, loveMessage);
+      });
+
+      // "No" button moves on hover/touch
+      function moveNoButton() {
+        const btnRect = noBtn.getBoundingClientRect();
+        const maxX    = window.innerWidth - btnRect.width - 20;
+        const maxY    = window.innerHeight - btnRect.height - 20;
+        const randomX = Math.max(20, Math.min(maxX, Math.random() * maxX));
+        const randomY = Math.max(20, Math.min(maxY, Math.random() * maxY));
+        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+      }
+      noBtn.addEventListener('mouseover', moveNoButton);
+      noBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+
+      // Navigation buttons for subsequent pages
+      toPictures.addEventListener("click", () => {
+        showSection(loveMessage, picturesPage);
+      });
+      toDate.addEventListener("click", () => {
+        showSection(picturesPage, datePage);
+      });
+    });
+  </script>
+</body>
+</html>
